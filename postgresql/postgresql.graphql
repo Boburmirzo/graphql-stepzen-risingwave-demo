@@ -1,0 +1,23 @@
+type hot_hashtags {
+  hashtag: String
+  hashtag_occurrences: Int
+  window_start: Date
+}
+
+type Query {
+  getHotHashtags: [hot_hashtags]
+    @dbquery(
+      type: "postgresql"
+      query: """
+        SELECT
+            *
+        FROM
+            hot_hashtags
+        ORDER BY
+            hashtag_occurrences DESC
+        LIMIT
+            10
+      """
+      configuration: "postgresql_config"
+    )  
+}
